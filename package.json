@@ -1,0 +1,15 @@
+{
+  "name": "energyshield-ai-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EnergyShield AI - Supply Chain Resilience (Root workspace to run frontend and backend together)",
+  "scripts": {
+    "dev": "concurrently --shell \"C:\\Windows\\System32\\cmd.exe\" -k -p \"[{name}]\" -n \"BACKEND,FRONTEND\" -c \"yellow.bold,cyan.bold\" \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "start": "concurrently --shell \"C:\\Windows\\System32\\cmd.exe\" -k -p \"[{name}]\" -n \"BACKEND,FRONTEND\" -c \"yellow.bold,cyan.bold\" \"npm --prefix backend start\" \"npm --prefix frontend run dev\"",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "seed": "npm --prefix backend run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
