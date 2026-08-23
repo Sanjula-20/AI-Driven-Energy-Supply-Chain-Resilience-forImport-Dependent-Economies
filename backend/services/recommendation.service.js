@@ -62,15 +62,16 @@ async function generateRecommendations() {
   const suppliers = await Supplier.find().lean();
   const highRiskSuppliers = suppliers.filter((s) => s.riskScore >= 61);
   if (highRiskSuppliers.length > 0) {
+    const highestSupplierRisk = Math.max(...highRiskSuppliers.map((s) => s.riskScore));
     recommendations.push({
       title: 'Diversify procurement across suppliers',
       description:
         `${highRiskSuppliers.length} supplier(s) currently carry HIGH or CRITICAL risk ` +
         `(${highRiskSuppliers.map((s) => s.name).join(', ')}). Increase the share sourced ` +
         'from lower-risk, higher-reliability suppliers.',
-      priority: 'MEDIUM',
+      priority: highestSupplierRisk >= 81 ? 'CRITICAL' : 'HIGH',
       category: 'SUPPLIER',
-      triggeredBy: `${highRiskSuppliers.length} supplier(s) with risk score >= 61`,
+      triggeredBy: `${highRiskSuppliers.length} supplier(s) with risk score >= 61; highest score = ${highestSupplierRisk}`,
     });
   }
 
