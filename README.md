@@ -672,9 +672,7 @@ After starting both servers:
 
 ---
 
-# 🏆 Hackathon Demonstration Flow
-
-The strongest demonstration flow is:
+# Demonstration Flow
 
 ## Step 1 — Login
 
