@@ -904,28 +904,6 @@ Potential future improvements include:
 - Advanced digital-twin simulation
 - Explainable AI evidence generation
 
----
-
-# 🎯 Project Objective
-
-The objective of EnergyShield AI is to transform fragmented energy-risk information into actionable decision support.
-
-The platform helps answer:
-
-- What is happening?
-- Where is the risk?
-- Which suppliers are affected?
-- Which corridors are vulnerable?
-- How much supply is at risk?
-- How much reserve coverage remains?
-- What happens under a disruption?
-- What mitigation strategies should be considered?
-
----
-
-# 👥 Team
-
-EnergyShield AI was developed as a hackathon project focused on AI-driven energy supply-chain resilience for import-dependent economies.
 
 ---
 
@@ -947,12 +925,5 @@ External Market Data: EIA API
 
 Authentication: JWT
 
-Status: Hackathon Ready 🚀
 
 ---
-
-# EnergyShield AI
-
-## Monitor. Analyze. Simulate. Respond.
-
-### AI-driven energy supply-chain resilience for import-dependent economies.
