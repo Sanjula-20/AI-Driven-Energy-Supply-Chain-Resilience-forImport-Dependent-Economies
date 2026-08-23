@@ -55,7 +55,7 @@ export default function Dashboard() {
                 label="Crude Oil Price"
                 value={`$${formatNumber(data.crudeOilPriceUsdPerBarrel, 1)}`}
                 unit="/ bbl"
-                sublabel="Demo baseline price"
+                sublabel={data.isDemoData ? 'Demo baseline price' : 'Live EIA Brent price'}
               />
               <StatCard
                 label="Supply at Risk"

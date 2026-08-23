@@ -14,7 +14,9 @@ const STATUS_COLOR = {
 export default function Reserves() {
   const { data, loading, error, refetch } = useApiData('/reserves');
 
-  const fillPercent = data ? Math.round((data.currentReserveLevelMbbl / data.totalReserveCapacityMbbl) * 100) : 0;
+  const fillPercent = data && data.totalReserveCapacityMbbl > 0
+    ? Math.min(100, Math.max(0, Math.round((data.currentReserveLevelMbbl / data.totalReserveCapacityMbbl) * 100)))
+    : 0;
 
   return (
     <div>

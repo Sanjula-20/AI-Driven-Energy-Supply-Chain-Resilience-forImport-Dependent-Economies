@@ -3,6 +3,18 @@ const ReserveStatus = require('../models/ReserveStatus');
 const Alert = require('../models/Alert');
 const { RESERVE_COVERAGE_THRESHOLD_DAYS } = require('../config/constants');
 
+function alertSignature(alert) {
+  return [alert.title, alert.message, alert.severity, alert.source].join('|');
+}
+
+function hasSameAlerts(currentAlerts, nextAlerts) {
+  if (currentAlerts.length !== nextAlerts.length) return false;
+
+  const currentSignatures = currentAlerts.map(alertSignature).sort();
+  const nextSignatures = nextAlerts.map(alertSignature).sort();
+  return currentSignatures.every((signature, index) => signature === nextSignatures[index]);
+}
+
 /**
  * Derives active alerts from current corridor and reserve state.
  * V1 is rule-based; a future commit can add a real-time ingestion path
@@ -61,11 +73,15 @@ async function refreshAlerts(riskResult) {
     });
   }
 
-  await Alert.updateMany({ isActive: true }, { $set: { isActive: false } });
-  if (alerts.length > 0) {
-    return Alert.insertMany(alerts.map((a) => ({ ...a, isActive: true })));
+  const activeAlerts = await Alert.find({ isActive: true }).lean();
+  if (hasSameAlerts(activeAlerts, alerts)) {
+    return activeAlerts;
   }
-  return [];
+
+  await Alert.updateMany({ isActive: true }, { $set: { isActive: false } });
+  if (alerts.length === 0) return [];
+
+  return Alert.insertMany(alerts.map((a) => ({ ...a, isActive: true })));
 }
 
 module.exports = { refreshAlerts };

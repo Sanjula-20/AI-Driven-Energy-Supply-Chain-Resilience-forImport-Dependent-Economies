@@ -14,7 +14,9 @@ function notFound(req, res, next) {
 // Express recognizes error middleware by its 4-argument signature.
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  const statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
+  const statusCode = res.statusCode && res.statusCode !== 200
+    ? res.statusCode
+    : err.statusCode || 500;
   const isProd = process.env.NODE_ENV === 'production';
 
   console.error(`[error] ${req.method} ${req.originalUrl} ->`, err.message);

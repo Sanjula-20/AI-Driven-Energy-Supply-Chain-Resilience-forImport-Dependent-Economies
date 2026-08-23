@@ -13,6 +13,7 @@ const CATEGORY_LABEL = {
 
 export default function Recommendations() {
   const { data, loading, error, refetch } = useApiData('/recommendations');
+  const recommendations = Array.isArray(data?.recommendations) ? data.recommendations : [];
 
   return (
     <div>
@@ -24,9 +25,17 @@ export default function Recommendations() {
       {loading && <LoadingState label="Generating recommendations…" />}
       {error && <ErrorState message={error} onRetry={refetch} />}
 
-      {data && (
+      {data && recommendations.length === 0 && (
+        <Panel>
+          <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 13.5 }}>
+            No active recommendations are available right now.
+          </p>
+        </Panel>
+      )}
+
+      {data && recommendations.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {data.recommendations.map((r) => (
+          {recommendations.map((r) => (
             <Panel key={r._id}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
                 <div>

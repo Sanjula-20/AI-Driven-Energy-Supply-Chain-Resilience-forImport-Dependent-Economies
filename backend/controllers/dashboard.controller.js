@@ -6,12 +6,16 @@ const Alert = require('../models/Alert');
 const RiskScore = require('../models/RiskScore');
 const riskEngine = require('../services/riskEngine.service');
 const alertService = require('../services/alert.service');
-
+const { getEnergyMarketData } = require('../services/market.service');
 // GET /api/dashboard
 // Aggregates everything the Command Center needs into one call.
 const getDashboard = asyncHandler(async (req, res) => {
-  const latestPrice = 85; // demo baseline; a future commit wires this to a live feed
-  const risk = await riskEngine.computeAndStoreRisk({ crudeOilPriceUsdPerBarrel: latestPrice });
+  const market = await getEnergyMarketData();
+  const latestPrice = market.brent.price;
+
+  const risk = await riskEngine.computeAndStoreRisk({
+    crudeOilPriceUsdPerBarrel: latestPrice,
+  });
   await alertService.refreshAlerts(risk);
 
   const [hormuz, redSea, reserve, activeAlerts, recentEvents] = await Promise.all([
@@ -36,6 +40,7 @@ const getDashboard = asyncHandler(async (req, res) => {
       : null,
     supplierRisk: risk.components.supplier,
     crudeOilPriceUsdPerBarrel: risk.crudeOilPriceUsdPerBarrel,
+    market,
     estimatedSupplyAtRiskKbpd: risk.estimatedSupplyAtRiskKbpd,
     strategicReserve: reserve
       ? {
@@ -47,7 +52,7 @@ const getDashboard = asyncHandler(async (req, res) => {
       : null,
     activeAlerts,
     recentEvents,
-    isDemoData: true,
+    isDemoData: !market.isLive,
   });
 });
 

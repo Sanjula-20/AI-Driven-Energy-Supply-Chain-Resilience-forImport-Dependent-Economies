@@ -8,7 +8,7 @@ import { LoadingState, ErrorState } from '../components/States';
 import { formatNumber } from '../utils/risk';
 
 export default function Scenarios() {
-  const { data: catalog, loading: catalogLoading, error: catalogError } = useApiData('/scenarios');
+  const { data: catalog, loading: catalogLoading, error: catalogError, refetch: refetchCatalog } = useApiData('/scenarios');
 
   const [scenarioKey, setScenarioKey] = useState('');
   const [duration, setDuration] = useState(7);
@@ -46,7 +46,7 @@ export default function Scenarios() {
       />
 
       {catalogLoading && <LoadingState label="Loading scenario catalog…" />}
-      {catalogError && <ErrorState message={catalogError} />}
+      {catalogError && <ErrorState message={catalogError} onRetry={refetchCatalog} />}
 
       {catalog && (
         <div style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: 18 }}>

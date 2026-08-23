@@ -24,8 +24,8 @@ const INDIAN_PORTS = [
 ];
 
 export default function SupplyChainMap() {
-  const { data: suppliersData, loading: l1, error: e1 } = useApiData('/suppliers');
-  const { data: corridorsData, loading: l2, error: e2 } = useApiData('/corridors');
+  const { data: suppliersData, loading: l1, error: e1, refetch: refetchSuppliers } = useApiData('/suppliers');
+  const { data: corridorsData, loading: l2, error: e2, refetch: refetchCorridors } = useApiData('/corridors');
   const [hovered, setHovered] = useState(null);
 
   const loading = l1 || l2;
@@ -44,7 +44,7 @@ export default function SupplyChainMap() {
       />
 
       {loading && <LoadingState label="Plotting supply chain…" />}
-      {error && <ErrorState message={error} />}
+      {error && <ErrorState message={error} onRetry={() => { refetchSuppliers(); refetchCorridors(); }} />}
 
       {!loading && !error && (
         <Panel eyebrow="Command Board" title="Global Supplier & Corridor Overview">
