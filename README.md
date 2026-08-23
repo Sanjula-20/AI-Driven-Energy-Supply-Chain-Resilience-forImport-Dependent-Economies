@@ -511,7 +511,7 @@ You should normally keep TWO terminals open:
 
 Open PowerShell / Command Prompt:
 
-    cd C:\Users\Sowndarya\AI-Driven-Energy-Supply-Chain-Resilience-forImport-Dependent-Economies\backend
+    cd AI-Driven-Energy-Supply-Chain-Resilience-forImport-Dependent-Economies\backend
 
 Then run:
 
@@ -538,7 +538,7 @@ Open another PowerShell / Command Prompt.
 
 Run:
 
-    cd C:\Users\Sowndarya\AI-Driven-Energy-Supply-Chain-Resilience-forImport-Dependent-Economies\frontend
+    cd AI-Driven-Energy-Supply-Chain-Resilience-forImport-Dependent-Economies\frontend
 
 Then:
 
